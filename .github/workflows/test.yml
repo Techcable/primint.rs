@@ -86,10 +86,7 @@ jobs:
           - nightly
         features:
           - ""
-        include:
-          # all nightly features together
-          - rust: nightly
-            features: "backtrace"
+          - "primint/num-traits-02 primint/bytemuck primint/serde"
 
     steps:
       - uses: actions/checkout@v7
