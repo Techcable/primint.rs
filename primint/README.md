@@ -13,14 +13,14 @@ Originally written for the [intid](https://crates.io/crates/intid) crate,
 but later extracted for independent use.
 
 This is lighter weight than [num-traits](https://github.com/rust-num/num-traits) crate.
-More importantly, the [`primint::PrimitiveInteger`] trait is sealed and
+More importantly, the [`primint::PrimitiveInt`] trait is sealed and
 restricted only to primitive integers while [`num_traits::Primint`] can be implemented by any crate.
 
 All operations are implemented as module-level functions to avoid conflicts
 with other traits and with inherent impls.
 Even constants like zero are accessible through `const fn` rather than associated consts.
 
-[`primint::PrimitiveInteger`]: https://docs.rs/primint/latest/int/trait.PrimInt.html
+[`primint::PrimitiveInt`]: https://docs.rs/primint/latest/primint/trait.PrimitiveInt.html
 [`num_traits::PrimInt`]: https://docs.rs/num-traits/0.2/num_traits/int/trait.PrimInt.html
 
 <!-- cargo-reedme: end -->

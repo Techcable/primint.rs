@@ -10,6 +10,10 @@ A title is required for publishing a github release, so all versions should have
 
 ## Unreleased
 
+### Fixed
+- Remove dead link to nonexistent `PrimitiveInteger` in crate docs (xxxzxqpn)
+  The real trait name is actually `PrimitiveInt`.
+
 ## 0.1.0
 Initial release.
 

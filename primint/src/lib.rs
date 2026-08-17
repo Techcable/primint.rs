@@ -4,14 +4,14 @@
 //! but later extracted for independent use.
 //!
 //! This is lighter weight than [num-traits](https://github.com/rust-num/num-traits) crate.
-//! More importantly, the [`primint::PrimitiveInteger`] trait is sealed and
+//! More importantly, the [`primint::PrimitiveInt`] trait is sealed and
 //! restricted only to primitive integers while [`num_traits::Primint`] can be implemented by any crate.
 //!
 //! All operations are implemented as module-level functions to avoid conflicts
 //! with other traits and with inherent impls.
 //! Even constants like zero are accessible through `const fn` rather than associated consts.
 //!
-//! [`primint::PrimitiveInteger`]: https://docs.rs/primint/latest/int/trait.PrimInt.html
+//! [`primint::PrimitiveInt`]: crate::PrimitiveInt
 //! [`num_traits::PrimInt`]: https://docs.rs/num-traits/0.2/num_traits/int/trait.PrimInt.html
 #![cfg_attr(not(test), no_std)]
 #![forbid(unsafe_code)] // not currently needed, but may change in the future
