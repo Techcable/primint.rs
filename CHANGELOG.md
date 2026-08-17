@@ -10,6 +10,9 @@ A title is required for publishing a github release, so all versions should have
 
 ## Unreleased
 
+## 0.1.1
+Add `FromStr` bound to `PrimitiveInt`.
+
 ### Added
 - Add `core::str::FromStr` bound to `PrimitiveInt` (xwvtvksx)
 

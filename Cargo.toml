@@ -5,7 +5,7 @@ members = [
 ]
 
 [workspace.package]
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Techcable <git@techcable.net>"]
 edition = "2021"
 # 1.56 - 2021 edition
