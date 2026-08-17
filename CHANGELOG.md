@@ -10,6 +10,9 @@ A title is required for publishing a github release, so all versions should have
 
 ## Unreleased
 
+### Added
+- Add `core::str::FromStr` bound to `PrimitiveInt` (xwvtvksx)
+
 ### Fixed
 - Remove dead link to nonexistent `PrimitiveInteger` in crate docs (xxxzxqpn)
   The real trait name is actually `PrimitiveInt`.

@@ -56,6 +56,7 @@ pub trait PrimitiveInt:
     + Display
     + Send
     + Sync
+    + core::str::FromStr<Err = core::num::ParseIntError>
     + bounds::ConvertPrimInts
     + private::PrivateInt
     + bounds::num_trait_02::PrimInt
