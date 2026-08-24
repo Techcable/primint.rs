@@ -12,6 +12,10 @@ A title is required for publishing a github release, so all versions should have
 
 ### Added
 - Add `wrapping_add` and `wrapping_sub` functions (wznskrrp)
+- Add `NonZero` struct to mirror `core::num::NonZero`, but made generic over `PrimitiveInt` (xooqvysu)
+
+### Changed
+- Bump MSRV to 1.71
 
 ## 0.1.1
 Add `FromStr` bound to `PrimitiveInt`.

@@ -11,10 +11,11 @@ edition = "2021"
 # 1.56 - 2021 edition
 # 1.64 - workspace.package
 # 1.68 - sparse index
-# 1.71 - syn@3
+# 1.71 - syn@3, const ptr::read
+# 1.79 - core::num::NonZero (could eliminate NonZeroAble helper trait)
 #
 # if changed, keep in sync with CI
-rust-version = "1.64"
+rust-version = "1.71"
 repository = "https://github.com/Techcable/primint.rs"
 license = "MIT OR Apache-2.0"
 

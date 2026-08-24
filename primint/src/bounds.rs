@@ -1,5 +1,40 @@
 //! Trait bounds used for [`crate::PrimitiveInt`].
 
+use core::fmt::{Debug, Display};
+use core::hash::Hash;
+
+macro_rules! trait_alias {
+    (
+        $(#[$m:meta])*
+        $v:vis trait $target:ident = [$($l:lifetime,)? $first:path $(, $other:path)+ $(,)?];
+    ) => {
+        $v trait $target:
+            $($l +)?
+            $first
+            $(+ $other)* {}
+        impl<T: ?Sized $(+ $l)? + $first $(+ $other)*> $target for T {}
+    };
+}
+
+trait_alias! {
+    /// Basic bounds implemented by most well-behaved types ([`Eq`], [`Hash`], [`serde::Serialize`]).
+    ///
+    /// This is implement both by the primitive integer types and [`core::num::NonZero`].
+    pub trait BasicBounds = [
+        'static,
+        Eq,
+        Hash,
+        Ord,
+        Copy,
+        Debug,
+        Display,
+        Send,
+        Sync,
+        self::serde::Serialize,
+        self::serde::DeserializeOwned,
+    ];
+}
+
 macro_rules! convert_prim_int {
     ($($target:ident),+ $(,)?) => {
         #[doc(hidden)]

@@ -16,7 +16,53 @@ pub trait Siblings {
     type Unsigned: UnsignedPrimInt;
 }
 
-pub trait PrivateInt: Sized + Siblings {
+/// Implemented for [`core::num::NonZero`] whenever the underlying type is a [`PrimitiveInt`].
+///
+/// # Safety
+/// Must be valid to transmute back and forth from the underlying integer type,
+/// provided that the value is nonzero.
+///
+/// Must satisfy the requirements of [`bytemuck::PodInOption`] and [`bytemuck::NoUninit`],
+/// although it doesn't need to actually implement the traits.
+pub unsafe trait NonZeroInner: super::bounds::BasicBounds {}
+
+/// A type which has an associated [`NonZeroInner`]
+///
+/// Used to emulate the generic type [`core::num::NonZero`] (which requires Rust 1.79).
+pub trait NonZeroAble {
+    type NonZero: NonZeroInner;
+}
+macro_rules! non_zero_able {
+    ($($target:ident => $nonzero:ident),+ $(,)?) => {
+        $(impl NonZeroAble for $target {
+            type NonZero = core::num::$nonzero;
+        }
+        // SAFETY: We know NonZero can be transmuted back/forth from $target
+        unsafe impl NonZeroInner for core::num::$nonzero {}
+        )*
+        const _VERIFY_NONZERO_SIZES: () = {
+            $(
+                assert!(size_of::<$target>() == size_of::<core::num::$nonzero>());
+            )*
+        };
+    };
+}
+non_zero_able! {
+    u8 => NonZeroU8,
+    u16 => NonZeroU16,
+    u32 => NonZeroU32,
+    u64 => NonZeroU64,
+    u128 => NonZeroU128,
+    usize => NonZeroUsize,
+    i8 => NonZeroI8,
+    i16 => NonZeroI16,
+    i32 => NonZeroI32,
+    i64 => NonZeroI64,
+    i128 => NonZeroI128,
+    isize => NonZeroIsize,
+}
+
+pub trait PrivateInt: Sized + Siblings + NonZeroAble {
     const BITS: u32;
     const ZERO: Self;
     const ONE: Self;

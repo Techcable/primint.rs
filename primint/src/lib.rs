@@ -14,9 +14,6 @@
 //! [`primint::PrimitiveInt`]: crate::PrimitiveInt
 //! [`num_traits::PrimInt`]: https://docs.rs/num-traits/0.2/num_traits/int/trait.PrimInt.html
 #![cfg_attr(not(test), no_std)]
-#![forbid(unsafe_code)] // not currently needed, but may change in the future
-use core::fmt::{Debug, Display};
-use core::hash::Hash;
 
 mod bounds;
 mod casts;
@@ -25,9 +22,11 @@ mod ops;
 pub(crate) mod private;
 
 pub mod fmt;
+pub mod num;
 
 pub use self::casts::*;
 pub use self::constants::*;
+pub use self::num::NonZero;
 pub use self::ops::*;
 
 /// An primitive integer.
@@ -47,25 +46,15 @@ pub use self::ops::*;
 ///
 /// This means that unsafe code can trust all functionality to behave correctly.
 pub trait PrimitiveInt:
-    Eq
-    + Hash
-    + Ord
-    + Copy
+    bounds::BasicBounds
     + Default
-    + Debug
-    + Display
-    + Send
-    + Sync
     + core::str::FromStr<Err = core::num::ParseIntError>
     + bounds::ConvertPrimInts
     + private::PrivateInt
     + bounds::num_trait_02::PrimInt
     + bounds::bytemuck::Pod
     + bounds::bytemuck::Contiguous
-    + bounds::serde::Serialize
-    + bounds::serde::DeserializeOwned
     + bounds::IntOps
-    + 'static
 {
 }
 
