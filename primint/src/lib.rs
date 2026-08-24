@@ -26,7 +26,7 @@ pub mod num;
 
 pub use self::casts::*;
 pub use self::constants::*;
-pub use self::num::NonZero;
+pub use self::num::{NonMax, NonZero};
 pub use self::ops::*;
 
 /// An primitive integer.

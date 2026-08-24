@@ -68,6 +68,10 @@ pub trait PrivateInt: Sized + Siblings + NonZeroAble {
     const ONE: Self;
     const MAX: Self;
     const MIN: Self;
+    /// The minimum value of the type, minus one.
+    ///
+    /// Used for the [`crate::num::NonMax`] abstraction.
+    const MIN_PLUS_ONE: Self;
     const SIGNED: bool;
     fn checked_cast<U: PrimitiveInt>(self) -> Option<U>;
     fn wrapping_cast<U: PrimitiveInt>(self) -> U;
@@ -111,6 +115,7 @@ macro_rules! impl_primint {
             const ONE: Self = 1;
             const MAX: Self = $target::MAX;
             const MIN: Self = $target::MIN;
+            const MIN_PLUS_ONE: Self = Self::MIN + 1;
             #[inline]
             fn checked_cast<U: super::PrimitiveInt>(self) -> Option<U> {
                 U::try_from(self).ok()

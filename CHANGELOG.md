@@ -13,6 +13,9 @@ A title is required for publishing a github release, so all versions should have
 ### Added
 - Add `wrapping_add` and `wrapping_sub` functions (wznskrrp)
 - Add `NonZero` struct to mirror `core::num::NonZero`, but made generic over `PrimitiveInt` (xooqvysu)
+- Add `NonMax` struct to mirror the `NonZero` struct (msuozwwt)
+  - Offers alternative to the `nonmax` crate.
+  - Implemented in terms of `NonZero` type as stdlib doesn't offer it natively.
 
 ### Changed
 - Bump MSRV to 1.71
