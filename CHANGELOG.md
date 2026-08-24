@@ -10,6 +10,9 @@ A title is required for publishing a github release, so all versions should have
 
 ## Unreleased
 
+## 0.1.2 - 2026-08-24
+Add `NonZero` and `NonMax` types, generic over `PrimitiveInt`.
+
 ### Added
 - Add `wrapping_add` and `wrapping_sub` functions (wznskrrp)
 - Add `NonZero` struct to mirror `core::num::NonZero`, but made generic over `PrimitiveInt` (xooqvysu)
