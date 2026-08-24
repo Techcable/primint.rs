@@ -33,6 +33,8 @@ pub trait PrivateInt: Sized + Siblings {
     fn checked_div(self, other: Self) -> Option<Self>;
     fn checked_rem(self, other: Self) -> Option<Self>;
     fn checked_pow(self, exp: u32) -> Option<Self>;
+    fn wrapping_add(self, other: Self) -> Self;
+    fn wrapping_sub(self, other: Self) -> Self;
     fn trailing_zeros(self) -> u32;
     fn leading_zeros(self) -> u32;
     fn count_ones(self) -> u32;
@@ -117,6 +119,14 @@ macro_rules! impl_primint {
             #[inline]
             fn checked_pow(self, exp: u32) -> Option<Self> {
                 <$target>::checked_pow(self, exp)
+            }
+            #[inline]
+            fn wrapping_add(self, other: Self) -> Self {
+                <$target>::wrapping_add(self, other)
+            }
+            #[inline]
+            fn wrapping_sub(self, other: Self) -> Self {
+                <$target>::wrapping_sub(self, other)
             }
             #[inline]
             fn count_ones(self) -> u32 {

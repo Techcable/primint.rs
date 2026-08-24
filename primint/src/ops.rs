@@ -33,6 +33,18 @@ pub fn checked_div<T: PrimitiveInt>(dividend: T, divisor: T) -> Option<T> {
     PrivateInt::checked_div(dividend, divisor)
 }
 
+/// Add the specified values together, wrapping around on overflow.
+#[inline]
+pub fn wrapping_add<T: PrimitiveInt>(left: T, right: T) -> T {
+    PrivateInt::wrapping_add(left, right)
+}
+
+/// Subtract the specified values, wrapping around on overflow.
+#[inline]
+pub fn wrapping_sub<T: PrimitiveInt>(left: T, right: T) -> T {
+    PrivateInt::wrapping_sub(left, right)
+}
+
 /// Take the remainder of dividing the `dividend` by the `divisor`,
 /// returning `None` if overflow occurs or `divisor` is zero.
 ///

@@ -10,6 +10,9 @@ A title is required for publishing a github release, so all versions should have
 
 ## Unreleased
 
+### Added
+- Add `wrapping_add` and `wrapping_sub` functions (wznskrrp)
+
 ## 0.1.1
 Add `FromStr` bound to `PrimitiveInt`.
 
