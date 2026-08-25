@@ -111,6 +111,7 @@ mod bytemuck_impls {
 mod serde_impls {
     use core::fmt::Formatter;
     use core::marker::PhantomData;
+    use core::mem::size_of;
 
     use serde::Serializer;
     use serde::de::{Error, Unexpected};
