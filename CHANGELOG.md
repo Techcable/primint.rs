@@ -10,6 +10,9 @@ A title is required for publishing a github release, so all versions should have
 
 ## Unreleased
 
+### Added
+- Implement `Default` for `NonMax` (wmvtkkqk)
+
 ## 0.1.2 - 2026-08-24
 Add `NonZero` and `NonMax` types, generic over `PrimitiveInt`.
 

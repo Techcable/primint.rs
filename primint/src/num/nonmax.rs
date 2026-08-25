@@ -1,5 +1,5 @@
-use crate::num::NonZero;
 use crate::UnsignedPrimInt;
+use crate::num::NonZero;
 
 /// An integer which is known not to be equal to the maximum value for the type.
 ///
@@ -80,6 +80,13 @@ impl<T: UnsignedPrimInt> NonMax<T> {
         // SAFETY: The maximum value is never zero.
         value_plus_one: unsafe { NonZero::new_unchecked(T::MAX) },
     };
+}
+impl<T: UnsignedPrimInt> Default for NonMax<T> {
+    #[inline]
+    fn default() -> Self {
+        // SAFETY: We know that zero is not the maximum value for any primint
+        unsafe { Self::new_unchecked(T::ONE) }
+    }
 }
 
 #[cfg(feature = "bytemuck")]
