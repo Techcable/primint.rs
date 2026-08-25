@@ -1,3 +1,4 @@
+use core::fmt::{Display, Formatter};
 use crate::PrimitiveInt;
 
 /// An integer which is known not to be zero.
@@ -77,6 +78,11 @@ impl<T: PrimitiveInt> NonZero<T> {
         // SAFETY: The maximum value is never zero.
         unsafe { Self::new_unchecked(T::MAX) }
     };
+}
+impl<T: PrimitiveInt> Display for NonZero<T> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+        write!(f, "{}", self.get())
+    }
 }
 
 union TransmuteHelper<T: PrimitiveInt> {

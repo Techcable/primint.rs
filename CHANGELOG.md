@@ -10,6 +10,9 @@ A title is required for publishing a github release, so all versions should have
 
 ## Unreleased
 
+### Added
+- Implement `Display` for `NonZero`, `NonMax` (svrxxntk)
+
 ### Changed
 - Mark `NonZero::new`, `NonMax::{new, new_unchecked, get}` as `const fn` (vnvwkvzp)
 
