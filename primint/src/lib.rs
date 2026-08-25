@@ -17,6 +17,8 @@
 
 mod bounds;
 mod casts;
+#[cfg(any(feature = "nonzero", feature = "nonmax"))]
+mod const_ops;
 mod constants;
 mod ops;
 pub(crate) mod private;

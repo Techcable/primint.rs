@@ -10,6 +10,9 @@ A title is required for publishing a github release, so all versions should have
 
 ## Unreleased
 
+### Changed
+- Mark `NonZero::new`, `NonMax::{new, new_unchecked, get}` as `const fn` (vnvwkvzp)
+
 ## 0.1.3 - 2026-08-25
 Hide `NonZero`, `NonMax` behind on-by-default features.
 

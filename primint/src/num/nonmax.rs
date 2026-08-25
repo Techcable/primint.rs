@@ -30,8 +30,8 @@ impl<T: UnsignedPrimInt> NonMax<T> {
     /// Creates a [`NonMax`] if the value is not zero,
     /// or `None` if the value is zero.
     #[inline]
-    pub fn new(val: T) -> Option<Self> {
-        if val == T::MAX {
+    pub const fn new(val: T) -> Option<Self> {
+        if crate::const_ops::is_max_val(val) {
             None
         } else {
             // SAFETY: Just verified we are not the maximum value
@@ -44,17 +44,15 @@ impl<T: UnsignedPrimInt> NonMax<T> {
     /// # Safety
     /// Value must be less than the maximum value of `T`.
     #[inline]
-    pub unsafe fn new_unchecked(val: T) -> Self {
-        // encountering this condition is UB, so a panic is a valid outcome
-        debug_assert!(val < T::MAX);
-        // We could make this const by casting to a u128 with a union,
-        // doing the addition on that and then casting back
+    pub const unsafe fn new_unchecked(val: T) -> Self {
+        // since passing a max val is already UB, we are free to panic here
+        debug_assert!(!crate::const_ops::is_max_val(val));
         // Using unchecked_add might be slightly faster, but would require an increased MSRV or rust version macros
         // Better to just wait for NonMax to be added to stdlib
         // SAFETY: Adding one to a non-max value ends up with something nonzero
         unsafe {
             NonMax {
-                value_plus_one: NonZero::new_unchecked(T::wrapping_add(val, T::ONE)),
+                value_plus_one: NonZero::new_unchecked(crate::const_ops::wrapping_inc(val)),
             }
         }
     }
@@ -63,9 +61,9 @@ impl<T: UnsignedPrimInt> NonMax<T> {
     ///
     /// The result will never be the maximum value of `T`.
     #[inline]
-    pub fn get(self) -> T {
+    pub const fn get(self) -> T {
         // use of unchecked_sub here might be faster, but see above for comments
-        T::wrapping_sub(self.value_plus_one.get(), T::ONE)
+        crate::const_ops::wrapping_dec(self.value_plus_one.get())
     }
 
     /// The minimum value for this type.
@@ -158,5 +156,28 @@ mod serde_impls {
         fn fmt(&self, f: &mut Formatter) -> core::fmt::Result {
             write!(f, "a {tname} (except {tname}::MAX)", tname = T::TYPE_NAME)
         }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use crate::UnsignedPrimInt;
+
+    #[test]
+    fn basic_roundtrip() {
+        fn roundtrip<T: UnsignedPrimInt>(val: T) {
+            let item = super::NonMax::new(val).unwrap_or_else(|| panic!("Maximum value {val}"));
+            assert_eq!(item.get(), val);
+        }
+        macro_rules! basic_roundtrip {
+            ($($t:ident),+) => {
+                $(roundtrip::<$t>(crate::zero());
+                roundtrip::<$t>(crate::one());
+                roundtrip::<$t>(2u8.into());
+                roundtrip::<$t>(crate::max_value::<$t>() - 2);
+                roundtrip::<$t>(crate::max_value::<$t>() - 1);)*
+            };
+        }
+        basic_roundtrip!(u8, u16, u32, u64, u128, usize);
     }
 }

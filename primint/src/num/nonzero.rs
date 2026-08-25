@@ -19,9 +19,8 @@ impl<T: PrimitiveInt> NonZero<T> {
     /// Creates a [`NonZero`] if the value is not zero,
     /// or `None` if the value is zero.
     #[inline]
-    pub fn new(val: T) -> Option<Self> {
-        // this comparison prevents this function from being const
-        if val == T::ZERO {
+    pub const fn new(val: T) -> Option<Self> {
+        if crate::const_ops::is_zero(val) {
             None
         } else {
             // SAFETY: Just verified we are not zero
@@ -36,6 +35,8 @@ impl<T: PrimitiveInt> NonZero<T> {
     /// Value cannot be zero.
     #[inline]
     pub const unsafe fn new_unchecked(val: T) -> Self {
+        // since passing a max val is already UB, we are free to panic here
+        debug_assert!(!crate::const_ops::is_zero(val));
         // This function must be const so to implement Self::MIN and Self::MAX
         // SAFETY: Caller guarantees zero cannot happen and we trust private::NonZeroInner
         #[allow(clippy::incompatible_msrv)] // nonzero requires Rust 1.74
