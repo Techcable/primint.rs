@@ -39,9 +39,11 @@ jobs:
         # NOTE: Features to test must be specified manually. They are applied to all versions separately.
         features:
           - ""
+          - "primint/nonzero"
+          - "primint/nonmax"
           - "primint/bytemuck"
           - "primint/num-traits-02"
-          - "primint/num-traits-02 primint/bytemuck primint/serde"
+          - "primint/num-traits-02 primint/bytemuck primint/serde primint/nonmax primint/nonzero"
 
     steps:
       - uses: actions/checkout@v7
@@ -86,7 +88,7 @@ jobs:
           - nightly
         features:
           - ""
-          - "primint/num-traits-02 primint/bytemuck primint/serde"
+          - "primint/num-traits-02 primint/bytemuck primint/serde primint/nonmax primint/nonzero"
 
     steps:
       - uses: actions/checkout@v7

@@ -26,7 +26,10 @@ pub mod num;
 
 pub use self::casts::*;
 pub use self::constants::*;
-pub use self::num::{NonMax, NonZero};
+#[cfg(feature = "nonmax")]
+pub use self::num::NonMax;
+#[cfg(feature = "nonzero")]
+pub use self::num::NonZero;
 pub use self::ops::*;
 
 /// An primitive integer.
