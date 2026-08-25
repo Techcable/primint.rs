@@ -1,4 +1,6 @@
 use core::fmt::{Display, Formatter};
+use core::ops::{BitOr, BitOrAssign};
+
 use crate::PrimitiveInt;
 
 /// An integer which is known not to be zero.
@@ -82,6 +84,35 @@ impl<T: PrimitiveInt> NonZero<T> {
 impl<T: PrimitiveInt> Display for NonZero<T> {
     fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
         write!(f, "{}", self.get())
+    }
+}
+
+impl<T: PrimitiveInt> BitOr<T> for NonZero<T> {
+    type Output = Self;
+    #[inline]
+    fn bitor(self, rhs: T) -> Self::Output {
+        // SAFETY: bitwise or always nonzero if one of its arguments is
+        unsafe { NonZero::new_unchecked(self.get() | rhs) }
+    }
+}
+impl<T: PrimitiveInt> BitOr for NonZero<T> {
+    type Output = Self;
+
+    #[inline]
+    fn bitor(self, rhs: Self) -> Self::Output {
+        self | rhs.get()
+    }
+}
+impl<T: PrimitiveInt> BitOrAssign<T> for NonZero<T> {
+    #[inline]
+    fn bitor_assign(&mut self, rhs: T) {
+        *self = *self | rhs;
+    }
+}
+impl<T: PrimitiveInt> BitOrAssign for NonZero<T> {
+    #[inline]
+    fn bitor_assign(&mut self, rhs: Self) {
+        *self = *self | rhs;
     }
 }
 

@@ -12,6 +12,7 @@ A title is required for publishing a github release, so all versions should have
 
 ### Added
 - Implement `Display` for `NonZero`, `NonMax` (svrxxntk)
+- Implement `BitOr` for `NonZero`, `BitAnd` for `NonMax` (rrlpzwum)
 
 ### Changed
 - Mark `NonZero::new`, `NonMax::{new, new_unchecked, get}` as `const fn` (vnvwkvzp)

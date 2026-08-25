@@ -1,4 +1,6 @@
 use core::fmt::{Display, Formatter};
+use core::ops::{BitAnd, BitAndAssign};
+
 use crate::UnsignedPrimInt;
 use crate::num::NonZero;
 
@@ -92,6 +94,35 @@ impl<T: UnsignedPrimInt> Default for NonMax<T> {
 impl<T: UnsignedPrimInt> Display for NonMax<T> {
     fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
         write!(f, "{}", self.get())
+    }
+}
+impl<T: UnsignedPrimInt> BitAnd<T> for NonMax<T> {
+    type Output = Self;
+    #[inline]
+    fn bitand(self, rhs: T) -> Self::Output {
+        // SAFETY: Since we are non-maximum, at least one of our bits is unset.
+        // It follows that one of the result bits is unset and so the int is not maximum
+        unsafe { NonMax::new_unchecked(self.get() & rhs) }
+    }
+}
+impl<T: UnsignedPrimInt> BitAnd for NonMax<T> {
+    type Output = Self;
+
+    #[inline]
+    fn bitand(self, rhs: Self) -> Self::Output {
+        self & rhs.get()
+    }
+}
+impl<T: UnsignedPrimInt> BitAndAssign<T> for NonMax<T> {
+    #[inline]
+    fn bitand_assign(&mut self, rhs: T) {
+        *self = *self & rhs;
+    }
+}
+impl<T: UnsignedPrimInt> BitAndAssign for NonMax<T> {
+    #[inline]
+    fn bitand_assign(&mut self, rhs: Self) {
+        *self = *self & rhs;
     }
 }
 
