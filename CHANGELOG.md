@@ -15,6 +15,12 @@ A title is required for publishing a github release, so all versions should have
 
 ### Changed
 - Hide `NonZero`, `NonMax` behind on-by-default feature flags (nktrlykq)
+- Reduce MSRV from 1.71 back to 1.64 (rupzyqzu)
+
+### Fixed
+- Restore compatibility with rust versions before 1.83 by avoiding `const_refs_to_cell` feature (issue [#1][issue1]) (nktrlykq)
+
+[issue1]: https://github.com/techcable/primint.rs/issues/1
 
 ## 0.1.2 - 2026-08-24
 Add `NonZero` and `NonMax` types, generic over `PrimitiveInt`.

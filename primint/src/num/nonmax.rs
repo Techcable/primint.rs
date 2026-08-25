@@ -47,6 +47,8 @@ impl<T: UnsignedPrimInt> NonMax<T> {
     pub unsafe fn new_unchecked(val: T) -> Self {
         // encountering this condition is UB, so a panic is a valid outcome
         debug_assert!(val < T::MAX);
+        // We could make this const by casting to a u128 with a union,
+        // doing the addition on that and then casting back
         // Using unchecked_add might be slightly faster, but would require an increased MSRV or rust version macros
         // Better to just wait for NonMax to be added to stdlib
         // SAFETY: Adding one to a non-max value ends up with something nonzero

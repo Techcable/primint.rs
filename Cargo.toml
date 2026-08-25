@@ -15,7 +15,7 @@ edition = "2021"
 # 1.79 - core::num::NonZero (could eliminate NonZeroAble helper trait)
 #
 # if changed, keep in sync with CI
-rust-version = "1.71"
+rust-version = "1.64"
 repository = "https://github.com/Techcable/primint.rs"
 license = "MIT OR Apache-2.0"
 

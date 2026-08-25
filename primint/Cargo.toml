@@ -22,7 +22,7 @@ serde = { package = "serde_core", version = "1", optional = true }
 default = ["nonmax", "nonzero"]
 # Have PrimitiveInt extend bytemuck::{Contiguous, Pod}
 bytemuck = ["dep:bytemuck"]
-# Define NonMax<T>, generic over PrimitiveInt (requires nonzero feature)
+# Define NonMax<T>, generic over PrimitiveInt (nonzero feature)
 nonmax = ["nonzero"]
 # Define NonZero<T> generic over PrimitiveInt
 nonzero = []

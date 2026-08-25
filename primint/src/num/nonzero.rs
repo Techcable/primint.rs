@@ -36,10 +36,13 @@ impl<T: PrimitiveInt> NonZero<T> {
     /// Value cannot be zero.
     #[inline]
     pub const unsafe fn new_unchecked(val: T) -> Self {
-        // Use of core::ptr::read here requires rust 1.71
         // This function must be const so to implement Self::MIN and Self::MAX
         // SAFETY: Caller guarantees zero cannot happen and we trust private::NonZeroInner
-        unsafe { core::ptr::addr_of!(val).cast::<Self>().read() }
+        #[allow(clippy::incompatible_msrv)] // nonzero requires Rust 1.74
+        unsafe {
+            let helper = TransmuteHelper { val };
+            helper.nonzero
+        }
     }
 
     /// Get the underlying integer value.
@@ -48,7 +51,10 @@ impl<T: PrimitiveInt> NonZero<T> {
     #[inline]
     pub const fn get(self) -> T {
         // SAFETY: The private::NonZeroInteger trait guarantees this is valid
-        unsafe { core::ptr::addr_of!(self).cast::<T>().read() }
+        unsafe {
+            let helper = TransmuteHelper { nonzero: self };
+            helper.val
+        }
     }
 
     /// The minimum value for this type.
@@ -70,6 +76,11 @@ impl<T: PrimitiveInt> NonZero<T> {
         // SAFETY: The maximum value is never zero.
         unsafe { Self::new_unchecked(T::MAX) }
     };
+}
+
+union TransmuteHelper<T: PrimitiveInt> {
+    val: T,
+    nonzero: NonZero<T>,
 }
 
 #[cfg(feature = "bytemuck")]
