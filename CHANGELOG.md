@@ -10,6 +10,9 @@ A title is required for publishing a github release, so all versions should have
 
 ## Unreleased
 
+## 0.1.4 - 2026-08-25
+Make `NonZero::new`, `NonMax::{new, get}` a `const fn`.
+
 ### Added
 - Implement `Display` for `NonZero`, `NonMax` (svrxxntk)
 - Implement `BitOr` for `NonZero`, `BitAnd` for `NonMax` (rrlpzwum)
