@@ -1,4 +1,5 @@
 use core::fmt::{Display, Formatter};
+use core::mem::size_of;
 use core::ops::{BitOr, BitOrAssign};
 
 use crate::PrimitiveInt;
@@ -120,6 +121,56 @@ union TransmuteHelper<T: PrimitiveInt> {
     val: T,
     nonzero: NonZero<T>,
 }
+
+macro_rules! primint_conversions {
+    ($($prim:ident => $alias:ident),+ $(,)?) => {
+        $(
+            impl From<core::num::$alias> for NonZero<$prim> {
+                #[inline]
+                fn from(x: core::num::$alias) -> Self {
+                    // SAFETY: We know the value is nonzero
+                    unsafe {
+                        NonZero::new_unchecked(x.get())
+                    }
+                }
+            }
+            impl From<NonZero<$prim>> for core::num::$alias {
+                #[inline]
+                fn from(x: NonZero<$prim>) -> Self {
+                    // SAFETY: We know the value is nonzero
+                    unsafe {
+                        core::num::$alias::new_unchecked(x.get())
+                    }
+                }
+            }
+            impl From<NonZero<$prim>> for $prim {
+                #[inline]
+                fn from(x: NonZero<$prim>) -> Self {
+                    x.get()
+                }
+            }
+        )*
+        const _CONVERT_ASSERT: () = {
+            $(
+                assert!(size_of::<$prim>() == size_of::<core::num::$alias>());
+            )*
+        };
+    }
+}
+primint_conversions!(
+    u8 => NonZeroU8,
+    u16 => NonZeroU16,
+    u32 => NonZeroU32,
+    u64 => NonZeroU64,
+    u128 => NonZeroU128,
+    usize => NonZeroUsize,
+    i8 => NonZeroI8,
+    i16 => NonZeroI16,
+    i32 => NonZeroI32,
+    i64 => NonZeroI64,
+    i128 => NonZeroI128,
+    isize => NonZeroIsize,
+);
 
 #[cfg(feature = "bytemuck")]
 mod bytemuck_impls {

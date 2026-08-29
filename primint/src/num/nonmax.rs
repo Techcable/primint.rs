@@ -126,6 +126,20 @@ impl<T: UnsignedPrimInt> BitAndAssign for NonMax<T> {
     }
 }
 
+macro_rules! primint_conversions {
+    ($($prim:ident),+ $(,)?) => {
+        $(
+            impl From<NonMax<$prim>> for $prim {
+                #[inline]
+                fn from(x: NonMax<$prim>) -> Self {
+                    x.get()
+                }
+            }
+        )*
+    }
+}
+primint_conversions!(u8, u16, u32, u64, u128, usize);
+
 #[cfg(feature = "bytemuck")]
 mod bytemuck_impls {
     use super::NonMax;
