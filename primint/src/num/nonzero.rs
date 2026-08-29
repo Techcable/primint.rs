@@ -81,6 +81,11 @@ impl<T: PrimitiveInt> NonZero<T> {
         // SAFETY: The maximum value is never zero.
         unsafe { Self::new_unchecked(T::MAX) }
     };
+
+    /// The number of bits needed to represent this type.
+    ///
+    /// Always equals the number of bits of the underlying type.
+    pub const BITS: u32 = crate::bits::<T>();
 }
 impl<T: PrimitiveInt> Display for NonZero<T> {
     fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {

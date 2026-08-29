@@ -14,6 +14,7 @@ A title is required for publishing a github release, so all versions should have
 - Add type aliases for `NonMax` and `NonZero` (i.e. `NonZeroU32`, `NonMaxU32`, etc.) (unqpkqks)
 - Add infallible `From` conversions for `NonMax`, `NonZero` (xutqswvn)
   - No failable conversions yet, as that would require defining a `TryFromIntError` type.
+- Add `BITS` associated constant to `NonMax`, `NonZero` (rslwssvw)
 
 ## 0.1.4 - 2026-08-25
 Make `NonZero::new`, `NonMax::{new, get}` a `const fn`.
