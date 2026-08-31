@@ -88,6 +88,18 @@ impl<T: UnsignedPrimInt> NonMax<T> {
     ///
     /// Always equals the number of bits of the underlying type.
     pub const BITS: u32 = crate::bits::<T>();
+
+    /// The constant value `1`.
+    pub const ONE: Self = {
+        // SAFETY: One is not the maximum value for any primint
+        unsafe { NonMax::new_unchecked(T::ONE) }
+    };
+
+    /// The constant value `0`.
+    pub const ZERO: Self = {
+        // SAFETY: Zero is not maximum value for any integer
+        unsafe { NonMax::new_unchecked(T::ZERO) }
+    };
 }
 impl<T: UnsignedPrimInt> Default for NonMax<T> {
     #[inline]
