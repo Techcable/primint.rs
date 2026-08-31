@@ -100,11 +100,13 @@ impl<T: UnsignedPrimInt> NonMax<T> {
         unsafe { NonMax::new_unchecked(T::ZERO) }
     };
 }
+/// Returns zero as the default value,
+/// just like the underlying type `T`.
 impl<T: UnsignedPrimInt> Default for NonMax<T> {
     #[inline]
     fn default() -> Self {
         // SAFETY: We know that zero is not the maximum value for any primint
-        unsafe { Self::new_unchecked(T::ONE) }
+        unsafe { Self::new_unchecked(T::ZERO) }
     }
 }
 impl<T: UnsignedPrimInt> BitAnd<T> for NonMax<T> {

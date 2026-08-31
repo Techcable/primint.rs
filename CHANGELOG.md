@@ -35,6 +35,9 @@ A title is required for publishing a github release, so all versions should have
 
 [`nonmax` crate]: https://docs.rs/nonmax/0.5/nonmax/
 
+### Fixes
+- Fix `Default` impl for `NonMax` to return zero instead of one.
+
 ## 0.1.4 - 2026-08-25
 Make `NonZero::new`, `NonMax::{new, get}` a `const fn`.
 
