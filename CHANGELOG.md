@@ -18,9 +18,12 @@ A title is required for publishing a github release, so all versions should have
 - Add `ONE`, `ZERO` constants to `NonMax` and `ONE` constant to `NonZero` (mkyykwvx)
 - Require `PrimitiveInt` to implement int format traits ([`Binary`], [`LowerHex`], etc.) (kkmsmlmr)
   - This was always true of the underlying integer types, but not required by the trait.
+- Implement int format traits for `NonZero`, `NonMax` ([`Binary`], [`LowerHex`], etc.) (mrlslmyw)
+  - Always implemented by delegating to underlying type, just like stdlib and the [`nonmax` crate].
 
 [`Binary`]: https://doc.rust-lang.org/core/fmt/trait.Binary.html
 [`LowerHex`]: https://doc.rust-lang.org/core/fmt/trait.LowerHex.html
+[`nonmax` crate]: https://docs.rs/nonmax/0.5/nonmax/
 
 ## 0.1.4 - 2026-08-25
 Make `NonZero::new`, `NonMax::{new, get}` a `const fn`.

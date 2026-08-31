@@ -1,4 +1,3 @@
-use core::fmt::{Display, Formatter};
 use core::ops::{BitAnd, BitAndAssign};
 
 use crate::UnsignedPrimInt;
@@ -106,11 +105,6 @@ impl<T: UnsignedPrimInt> Default for NonMax<T> {
     fn default() -> Self {
         // SAFETY: We know that zero is not the maximum value for any primint
         unsafe { Self::new_unchecked(T::ONE) }
-    }
-}
-impl<T: UnsignedPrimInt> Display for NonMax<T> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
-        write!(f, "{}", self.get())
     }
 }
 impl<T: UnsignedPrimInt> BitAnd<T> for NonMax<T> {

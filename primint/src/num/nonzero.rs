@@ -1,4 +1,3 @@
-use core::fmt::{Display, Formatter};
 use core::mem::size_of;
 use core::ops::{BitOr, BitOrAssign};
 
@@ -92,11 +91,6 @@ impl<T: PrimitiveInt> NonZero<T> {
         // SAFETY: One is never zero
         unsafe { Self::new_unchecked(T::ONE) }
     };
-}
-impl<T: PrimitiveInt> Display for NonZero<T> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
-        write!(f, "{}", self.get())
-    }
 }
 
 impl<T: PrimitiveInt> BitOr<T> for NonZero<T> {
