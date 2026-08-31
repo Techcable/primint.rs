@@ -23,7 +23,7 @@ use crate::num::NonZero;
 ///
 /// Note that [`NonMax`] does not currently implement [`bytemuck::Contiguous`],
 /// as that would expose the underlying representation.
-#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Ord, PartialOrd)]
+#[derive(Copy, Clone, Eq, PartialEq, Hash, Ord, PartialOrd)]
 #[repr(transparent)]
 pub struct NonMax<T: UnsignedPrimInt> {
     value_plus_one: NonZero<T>,

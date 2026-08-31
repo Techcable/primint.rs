@@ -13,7 +13,7 @@ use crate::PrimitiveInt;
 /// The correctness of this type can be relied upon for unsafe code.
 ///
 /// The representation is guaranteed to exactly match [`core::num::NonZero`].
-#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Ord, PartialOrd)]
+#[derive(Copy, Clone, Eq, PartialEq, Hash, Ord, PartialOrd)]
 #[repr(transparent)]
 pub struct NonZero<T: PrimitiveInt> {
     inner: <T as crate::private::NonZeroAble>::NonZero,

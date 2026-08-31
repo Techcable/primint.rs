@@ -4,6 +4,8 @@ macro_rules! fmt_delegate_traits {
         fmt_delegate_traits!(
             $target<$bound> <=
             core::fmt::Display,
+            // delegation for Debug is the behavior of both core::num::NonZero and nonmax crate.
+            core::fmt::Debug,
             // all the other numeric format traits:
             core::fmt::Binary,
             core::fmt::LowerExp,

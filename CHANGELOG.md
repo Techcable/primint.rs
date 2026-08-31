@@ -25,6 +25,16 @@ A title is required for publishing a github release, so all versions should have
 [`LowerHex`]: https://doc.rust-lang.org/core/fmt/trait.LowerHex.html
 [`nonmax` crate]: https://docs.rs/nonmax/0.5/nonmax/
 
+### Changes
+- Delegate `Debug` impl for `NonZero`, `NonMax` to underlying type (qnlmtkkx)
+  - Makes behavior consistent with stdlib and [`nonmax` crate].
+  - Previous behavior for `NonZero` was to format as newtype tuple struct (`0` formats as `NonZero(0)`]
+  - Previous behavior for `NonMax` was excessively verbose and exposed internal implementation details.
+  - I don't consider this breaking since previous behavior was not guaranteed.
+    The new behavior is guaranteed unless the stdlib changes it behavior.
+
+[`nonmax` crate]: https://docs.rs/nonmax/0.5/nonmax/
+
 ## 0.1.4 - 2026-08-25
 Make `NonZero::new`, `NonMax::{new, get}` a `const fn`.
 
