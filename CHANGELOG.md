@@ -10,6 +10,9 @@ A title is required for publishing a github release, so all versions should have
 
 ## Unreleased
 
+## 0.1.5 - 2026-08-30
+Add infallible `From` conversions for `NonMax`, `NonZero`.
+
 ### Added
 - Add type aliases for `NonMax` and `NonZero` (i.e. `NonZeroU32`, `NonMaxU32`, etc.) (unqpkqks)
 - Add infallible `From` conversions for `NonMax`, `NonZero` (xutqswvn)
