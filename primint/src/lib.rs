@@ -52,6 +52,7 @@ pub use self::ops::*;
 /// This means that unsafe code can trust all functionality to behave correctly.
 pub trait PrimitiveInt:
     bounds::BasicBounds
+    + bounds::IntFmtBounds
     + Default
     + core::str::FromStr<Err = core::num::ParseIntError>
     + bounds::ConvertPrimInts

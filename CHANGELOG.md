@@ -16,6 +16,11 @@ A title is required for publishing a github release, so all versions should have
   - No failable conversions yet, as that would require defining a `TryFromIntError` type.
 - Add `BITS` associated constant to `NonMax`, `NonZero` (rslwssvw)
 - Add `ONE`, `ZERO` constants to `NonMax` and `ONE` constant to `NonZero` (mkyykwvx)
+- Require `PrimitiveInt` to implement int format traits ([`Binary`], [`LowerHex`], etc.) (kkmsmlmr)
+  - This was always true of the underlying integer types, but not required by the trait.
+
+[`Binary`]: https://doc.rust-lang.org/core/fmt/trait.Binary.html
+[`LowerHex`]: https://doc.rust-lang.org/core/fmt/trait.LowerHex.html
 
 ## 0.1.4 - 2026-08-25
 Make `NonZero::new`, `NonMax::{new, get}` a `const fn`.

@@ -35,6 +35,21 @@ trait_alias! {
     ];
 }
 
+trait_alias! {
+    /// Formatting traits implemented by all integer types.
+    pub trait IntFmtBounds = [
+        'static,
+        Display,
+        Debug,
+        core::fmt::Binary,
+        core::fmt::LowerExp,
+        core::fmt::LowerHex,
+        core::fmt::Octal,
+        core::fmt::UpperExp,
+        core::fmt::UpperHex,
+    ];
+}
+
 macro_rules! convert_prim_int {
     ($($target:ident),+ $(,)?) => {
         #[doc(hidden)]
