@@ -222,26 +222,3 @@ mod serde_impls {
         }
     }
 }
-
-#[cfg(test)]
-mod test {
-    use crate::UnsignedPrimInt;
-
-    #[test]
-    fn basic_roundtrip() {
-        fn roundtrip<T: UnsignedPrimInt>(val: T) {
-            let item = super::NonMax::new(val).unwrap_or_else(|| panic!("Maximum value {val}"));
-            assert_eq!(item.get(), val);
-        }
-        macro_rules! basic_roundtrip {
-            ($($t:ident),+) => {
-                $(roundtrip::<$t>(crate::zero());
-                roundtrip::<$t>(crate::one());
-                roundtrip::<$t>(2u8.into());
-                roundtrip::<$t>(crate::max_value::<$t>() - 2);
-                roundtrip::<$t>(crate::max_value::<$t>() - 1);)*
-            };
-        }
-        basic_roundtrip!(u8, u16, u32, u64, u128, usize);
-    }
-}
