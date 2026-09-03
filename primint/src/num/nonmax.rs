@@ -154,6 +154,19 @@ macro_rules! primint_conversions {
 }
 primint_conversions!(u8, u16, u32, u64, u128, usize);
 
+/// Hashes the underlying value.
+///
+/// As of version v0.1.6, this is guaranteed to give the same result as the underlying type:
+/// ```
+/// # use std::hash::{RandomState, BuildHasher};
+/// let hasher = RandomState::new();
+/// assert_eq!(
+///     hasher.hash_one(primint::NonMax::new(3u32).unwrap()),
+///     hasher.hash_one(3u32),
+/// );
+/// ```
+///
+/// In versions v0.1.5 and before, this property was not true.
 impl<T: UnsignedPrimInt> Hash for NonMax<T> {
     #[inline]
     fn hash<H: Hasher>(&self, state: &mut H) {

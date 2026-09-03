@@ -123,6 +123,20 @@ impl<T: PrimitiveInt> BitOrAssign for NonZero<T> {
     }
 }
 
+/// Hashes the underlying value.
+///
+/// This is guaranteed to give the same result as the underlying type:
+/// ```
+/// # use std::hash::{RandomState, BuildHasher};
+/// let hasher = RandomState::new();
+/// assert_eq!(
+///     hasher.hash_one(primint::NonZero::new(3u32).unwrap()),
+///     hasher.hash_one(3u32),
+/// );
+/// ```
+///
+/// This property has been true in all released versions,
+/// but not guaranteed until
 impl<T: PrimitiveInt> Hash for NonZero<T> {
     #[inline]
     fn hash<H: Hasher>(&self, state: &mut H) {

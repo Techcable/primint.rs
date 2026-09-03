@@ -10,6 +10,9 @@ A title is required for publishing a github release, so all versions should have
 
 ## Unreleased
 
+### Changed
+- Officially guarantee that `NonMax<T>` and `NonZero<T>` implement `Hash` the same as `T` (zoxoyvnx)
+
 ### Fixes
 - The `Hash` impl for `NonMax` now behaves the same as the underlying type `T`. (ppmqkvzx)
   - This property has always been true of `NonZero`, but has not been true for `NonMax`
