@@ -10,6 +10,10 @@ A title is required for publishing a github release, so all versions should have
 
 ## Unreleased
 
+### Fixes
+- The `Hash` impl for `NonMax` now behaves the same as the underlying type `T`. (ppmqkvzx)
+  - This property has always been true of `NonZero`, but has not been true for `NonMax`
+
 ## 0.1.5 - 2026-08-30
 Add infallible `From` conversions for `NonMax`, `NonZero`.
 

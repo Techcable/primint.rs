@@ -1,3 +1,4 @@
+use core::hash::{Hash, Hasher};
 use core::ops::{BitAnd, BitAndAssign};
 
 use crate::UnsignedPrimInt;
@@ -23,7 +24,7 @@ use crate::num::NonZero;
 ///
 /// Note that [`NonMax`] does not currently implement [`bytemuck::Contiguous`],
 /// as that would expose the underlying representation.
-#[derive(Copy, Clone, Eq, PartialEq, Hash, Ord, PartialOrd)]
+#[derive(Copy, Clone, Eq, PartialEq, Ord, PartialOrd)]
 #[repr(transparent)]
 pub struct NonMax<T: UnsignedPrimInt> {
     value_plus_one: NonZero<T>,
@@ -152,6 +153,14 @@ macro_rules! primint_conversions {
     }
 }
 primint_conversions!(u8, u16, u32, u64, u128, usize);
+
+impl<T: UnsignedPrimInt> Hash for NonMax<T> {
+    #[inline]
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        // behaves differently than the derive impl
+        <T as Hash>::hash(&self.get(), state)
+    }
+}
 
 #[cfg(feature = "bytemuck")]
 mod bytemuck_impls {
