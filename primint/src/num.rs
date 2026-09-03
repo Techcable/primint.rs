@@ -1,7 +1,7 @@
 //! Mirrors the [`core::num`] module.
 
 #[cfg(any(feature = "nonzero", feature = "nonmax"))]
-mod noncomon;
+mod noncommon;
 #[cfg(feature = "nonmax")]
 mod nonmax;
 #[cfg(feature = "nonzero")]
