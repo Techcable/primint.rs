@@ -1,3 +1,4 @@
+use core::hash::{Hash, Hasher};
 use core::mem::size_of;
 use core::ops::{BitOr, BitOrAssign};
 
@@ -13,7 +14,7 @@ use crate::PrimitiveInt;
 /// The correctness of this type can be relied upon for unsafe code.
 ///
 /// The representation is guaranteed to exactly match [`core::num::NonZero`].
-#[derive(Copy, Clone, Eq, PartialEq, Hash, Ord, PartialOrd)]
+#[derive(Copy, Clone, Eq, PartialEq, Ord, PartialOrd)]
 #[repr(transparent)]
 pub struct NonZero<T: PrimitiveInt> {
     inner: <T as crate::private::NonZeroAble>::NonZero,
@@ -119,6 +120,14 @@ impl<T: PrimitiveInt> BitOrAssign for NonZero<T> {
     #[inline]
     fn bitor_assign(&mut self, rhs: Self) {
         *self = *self | rhs;
+    }
+}
+
+impl<T: PrimitiveInt> Hash for NonZero<T> {
+    #[inline]
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        // behaves the same as the derive impl since get() is just transmute
+        <T as Hash>::hash(&self.get(), state)
     }
 }
 
