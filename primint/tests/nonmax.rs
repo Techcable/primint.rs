@@ -1,9 +1,11 @@
 use std::cmp::Ordering;
-use std::hash::{Hash, Hasher};
 
 use primint::{NonMax, UnsignedPrimInt};
 use proptest::proptest;
 use proptest::strategy::Strategy;
+
+#[macro_use]
+mod utils;
 
 fn nonmax() -> impl Strategy<Value = NonMax<u32>> {
     (NonMax::<u32>::MIN.get()..=NonMax::MAX.get()).prop_map(|x| NonMax::<u32>::new(x).unwrap())
@@ -39,35 +41,9 @@ fn ordered_basic() {
     assert_eq!(ord(1, 1), Ordering::Equal);
 }
 
-proptest! {
-    #[test]
-    fn ordered(a in nonmax(), b in nonmax()) {
-        assert_eq!(
-            NonMax::cmp(&a, &b),
-            u32::cmp(&a.get(), &b.get()),
-        );
-    }
-}
-
-fn hashed_bytes<T: Hash>(value: T) -> Vec<u8> {
-    struct DummyHasher {
-        bytes: Vec<u8>,
-    }
-    impl Hasher for DummyHasher {
-        fn finish(&self) -> u64 {
-            unimplemented!()
-        }
-        fn write(&mut self, bytes: &[u8]) {
-            self.bytes.extend(bytes);
-        }
-    }
-    let mut hasher = DummyHasher { bytes: Vec::new() };
-    value.hash(&mut hasher);
-    hasher.bytes
-}
-
 #[test]
 fn hash_same_basic() {
+    use crate::utils::hash::hashed_bytes;
     #[track_caller]
     fn check<T: UnsignedPrimInt>(value: T) {
         assert_eq!(hashed_bytes(NonMax::new(value).unwrap()), hashed_bytes(value));
@@ -83,22 +59,4 @@ fn hash_same_basic() {
     basics!(u8, u16, u32, u64, u128, usize);
 }
 
-proptest! {
-    #[test]
-    fn hash_same(a in nonmax()) {
-        assert_eq!(
-            hashed_bytes::<NonMax<u32>>(a),
-            hashed_bytes::<u32>(a.get()),
-        );
-    }
-}
-
-proptest! {
-    #[test]
-    fn debug_same(a in nonmax()) {
-        assert_eq!(
-            format!("{a:?}"),
-            format!("{:?}", a.get())
-        );
-    }
-}
+noncommon_proptests!(NonMax<u32> with nonmax());

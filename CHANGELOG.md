@@ -12,6 +12,8 @@ A title is required for publishing a github release, so all versions should have
 
 ### Changed
 - Officially guarantee that `NonMax<T>` and `NonZero<T>` implement `Hash` the same as `T` (zoxoyvnx)
+- Similarly guarantee that `NonMax<T>` and `NonZero<T>` implement `Ord` the same as `T` (lzlwsrtp)
+  - This has always been the case for both types.
 
 ### Fixes
 - The `Hash` impl for `NonMax` now behaves the same as the underlying type `T`. (ppmqkvzx)

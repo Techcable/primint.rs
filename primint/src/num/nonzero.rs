@@ -1,3 +1,4 @@
+use core::cmp::Ordering;
 use core::hash::{Hash, Hasher};
 use core::mem::size_of;
 use core::ops::{BitOr, BitOrAssign};
@@ -14,7 +15,7 @@ use crate::PrimitiveInt;
 /// The correctness of this type can be relied upon for unsafe code.
 ///
 /// The representation is guaranteed to exactly match [`core::num::NonZero`].
-#[derive(Copy, Clone, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Copy, Clone, Eq, PartialEq)]
 #[repr(transparent)]
 pub struct NonZero<T: PrimitiveInt> {
     inner: <T as crate::private::NonZeroAble>::NonZero,
@@ -199,6 +200,62 @@ primint_conversions!(
     i128 => NonZeroI128,
     isize => NonZeroIsize,
 );
+impl<T: PrimitiveInt> PartialOrd for NonZero<T> {
+    #[inline]
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+    #[inline]
+    fn lt(&self, other: &Self) -> bool {
+        self.inner.lt(&other.inner)
+    }
+    #[inline]
+    fn le(&self, other: &Self) -> bool {
+        self.inner.le(&other.inner)
+    }
+    #[inline]
+    fn gt(&self, other: &Self) -> bool {
+        self.inner.gt(&other.inner)
+    }
+    #[inline]
+    fn ge(&self, other: &Self) -> bool {
+        self.inner.ge(&other.inner)
+    }
+}
+/// The ordering of a `NonZero<t>` is equivalent to that of the underlying value `T`.
+impl<T: PrimitiveInt> Ord for NonZero<T> {
+    #[inline]
+    fn cmp(&self, other: &Self) -> Ordering {
+        self.inner.cmp(&other.inner)
+    }
+    #[inline]
+    fn max(self, other: Self) -> Self
+    where
+        Self: Sized,
+    {
+        NonZero {
+            inner: self.inner.max(other.inner),
+        }
+    }
+    #[inline]
+    fn min(self, other: Self) -> Self
+    where
+        Self: Sized,
+    {
+        NonZero {
+            inner: self.inner.min(other.inner),
+        }
+    }
+    #[inline]
+    fn clamp(self, min: Self, max: Self) -> Self
+    where
+        Self: Sized,
+    {
+        NonZero {
+            inner: self.inner.clamp(min.inner, max.inner),
+        }
+    }
+}
 
 #[cfg(feature = "bytemuck")]
 mod bytemuck_impls {

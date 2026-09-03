@@ -1,3 +1,4 @@
+use core::cmp::Ordering;
 use core::hash::{Hash, Hasher};
 use core::ops::{BitAnd, BitAndAssign};
 
@@ -24,7 +25,7 @@ use crate::num::NonZero;
 ///
 /// Note that [`NonMax`] does not currently implement [`bytemuck::Contiguous`],
 /// as that would expose the underlying representation.
-#[derive(Copy, Clone, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Copy, Clone, Eq, PartialEq)]
 #[repr(transparent)]
 pub struct NonMax<T: UnsignedPrimInt> {
     value_plus_one: NonZero<T>,
@@ -153,6 +154,66 @@ macro_rules! primint_conversions {
     }
 }
 primint_conversions!(u8, u16, u32, u64, u128, usize);
+
+impl<T: UnsignedPrimInt> PartialOrd for NonMax<T> {
+    #[inline]
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+    #[inline]
+    fn lt(&self, other: &Self) -> bool {
+        self.value_plus_one.lt(&other.value_plus_one)
+    }
+    #[inline]
+    fn le(&self, other: &Self) -> bool {
+        self.value_plus_one.le(&other.value_plus_one)
+    }
+    #[inline]
+    fn gt(&self, other: &Self) -> bool {
+        self.value_plus_one.gt(&other.value_plus_one)
+    }
+    #[inline]
+    fn ge(&self, other: &Self) -> bool {
+        self.value_plus_one.ge(&other.value_plus_one)
+    }
+}
+/// The ordering of a `NonMax<T>` is equivalent to that of the underlying value `T`.
+impl<T: UnsignedPrimInt> Ord for NonMax<T> {
+    #[inline]
+    fn cmp(&self, other: &Self) -> Ordering {
+        // shifting the values up by one doesn't involve any wraparound,
+        // so doesn't affect the types relative ordering
+        self.value_plus_one.cmp(&other.value_plus_one)
+    }
+    #[inline]
+    fn max(self, other: Self) -> Self
+    where
+        Self: Sized,
+    {
+        // valid since shifting doesn't involve wraparound
+        NonMax {
+            value_plus_one: self.value_plus_one.max(other.value_plus_one),
+        }
+    }
+    #[inline]
+    fn min(self, other: Self) -> Self
+    where
+        Self: Sized,
+    {
+        NonMax {
+            value_plus_one: self.value_plus_one.min(other.value_plus_one),
+        }
+    }
+    #[inline]
+    fn clamp(self, min: Self, max: Self) -> Self
+    where
+        Self: Sized,
+    {
+        NonMax {
+            value_plus_one: self.value_plus_one.clamp(min.value_plus_one, max.value_plus_one),
+        }
+    }
+}
 
 /// Hashes the underlying value.
 ///
