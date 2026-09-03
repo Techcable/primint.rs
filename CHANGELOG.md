@@ -10,6 +10,12 @@ A title is required for publishing a github release, so all versions should have
 
 ## Unreleased
 
+## 0.1.6 - 2026-09-03
+Guarantee that `NonMax<T>` and `NonZero<T>` implement `Hash` and `Ord` the same as `T`.
+
+Make `Hash` impl for `NonMax` to satisfy this property.
+All other trait implementations already satisfied this.
+
 ### Changed
 - Officially guarantee that `NonMax<T>` and `NonZero<T>` implement `Hash` the same as `T` (zoxoyvnx)
 - Similarly guarantee that `NonMax<T>` and `NonZero<T>` implement `Ord` the same as `T` (lzlwsrtp)
