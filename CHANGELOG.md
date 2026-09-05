@@ -12,6 +12,9 @@ Most changes include the relevant [jj](https://jj-vcs.dev) change ids in parens.
 
 ## Unreleased
 
+## 0.1.7 - 0026-09-04
+Do not define `NonZero`/`NonMax` aliases if those features have been disabled.
+
 ### Fixes
 - Only define `NonZero` and `NonMax` aliases if those features have been enabled (qwnmsrvm)
   - Fixes compilation errors present in v0.1.6
