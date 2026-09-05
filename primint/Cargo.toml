@@ -13,6 +13,14 @@ categories = ["data-structures", "no-std", "no-std::no-alloc", "rust-patterns"]
 [package.metadata.docs.rs]
 all-features = true
 
+[[test]]
+name = "nonmax"
+required-features = ["nonmax"]
+
+[[test]]
+name = "nonzero"
+required-features = ["nonzero"]
+
 [dependencies]
 bytemuck = { version = "1", optional = true }
 num-traits-02 = { package = "num-traits", version = "0.2", optional = true }
