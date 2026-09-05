@@ -219,12 +219,17 @@ impl<T: UnsignedPrimInt> Ord for NonMax<T> {
 ///
 /// As of version v0.1.6, this is guaranteed to give the same result as the underlying type:
 /// ```
-/// # use std::hash::{RandomState, BuildHasher};
+/// # use std::{hash::BuildHasher, collections::hash_map::RandomState};
+/// # #[rustversion::since(1.71)] // need hash_one() function
+/// # fn main() {
 /// let hasher = RandomState::new();
 /// assert_eq!(
 ///     hasher.hash_one(primint::NonMax::new(3u32).unwrap()),
-///     hasher.hash_one(3u32),
+///     hasher.hash_one(3u32)
 /// );
+/// # }
+/// # #[rustversion::before(1.71)]
+/// # fn main() {}
 /// ```
 ///
 /// In versions v0.1.5 and before, this property was not true.

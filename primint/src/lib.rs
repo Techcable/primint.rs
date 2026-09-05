@@ -13,7 +13,7 @@
 //!
 //! [`primint::PrimitiveInt`]: crate::PrimitiveInt
 //! [`num_traits::PrimInt`]: https://docs.rs/num-traits/0.2/num_traits/int/trait.PrimInt.html
-#![cfg_attr(not(test), no_std)]
+#![cfg_attr(not(any(test, doc)), no_std)]
 
 mod bounds;
 mod casts;

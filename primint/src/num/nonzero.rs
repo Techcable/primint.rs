@@ -128,12 +128,17 @@ impl<T: PrimitiveInt> BitOrAssign for NonZero<T> {
 ///
 /// This is guaranteed to give the same result as the underlying type:
 /// ```
-/// # use std::hash::{RandomState, BuildHasher};
+/// # use std::{hash::BuildHasher, collections::hash_map::RandomState};
+/// # #[rustversion::since(1.71)] // need hash_one() function
+/// # fn main() {
 /// let hasher = RandomState::new();
 /// assert_eq!(
 ///     hasher.hash_one(primint::NonZero::new(3u32).unwrap()),
-///     hasher.hash_one(3u32),
+///     hasher.hash_one(3u32)
 /// );
+/// # }
+/// # #[rustversion::before(1.71)]
+/// # fn main() {}
 /// ```
 ///
 /// This property has been true in all released versions,
