@@ -10,6 +10,10 @@ A title is required for publishing a github release, so all versions should have
 
 ## Unreleased
 
+### Fixes
+- Only define `NonZero` and `NonMax` aliases if those features have been enabled (qwnmsrvm)
+  - Fixes compilation errors present in v0.1.6
+
 ## 0.1.6 - 2026-09-03
 Guarantee that `NonMax<T>` and `NonZero<T>` implement `Hash` and `Ord` the same as `T`.
 

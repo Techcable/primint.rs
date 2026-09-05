@@ -17,6 +17,7 @@ macro_rules! nonzero_aliases {
         $(#[doc = concat!("A [`", stringify!($prim), "`] that is known to not equal zero.")]
         ///
         #[doc = concat!("This is a convenience alias for [`primint::num::NonZero<", stringify!($prim), ">`](crate::num::NonZero).")]
+        #[cfg(feature = "nonzero")]
         pub type $alias = NonZero<$prim>;)*
     };
 }
@@ -26,6 +27,7 @@ macro_rules! nonmax_aliases {
         $(#[doc = concat!("A [`", stringify!($prim), "`] that is known to not equal [`", stringify!($prim), "::MAX`].")]
         ///
         #[doc = concat!("This is a convenience alias for [`primint::num::NonMax<", stringify!($prim), ">`](crate::num::NonMax).")]
+        #[cfg(feature = "nonmax")]
         pub type $alias = NonMax<$prim>;)*
     };
 }
